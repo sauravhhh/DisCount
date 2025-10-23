@@ -1,1 +1,410 @@
-a
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DisCount</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #ffffff, #f5f5f5);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .calculator {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 32px;
+            height: 32px;
+            fill: #555;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            background-color: #fafafa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #d0d0d0;
+            background-color: #ffffff;
+        }
+
+        .mode-selector {
+            display: flex;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .mode-option {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+
+        .mode-option.active {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .mode-option:not(.active):hover {
+            background-color: #f0f0f0;
+        }
+
+        .input-section {
+            display: none;
+        }
+
+        .input-section.active {
+            display: block;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .button {
+            width: 100%;
+            padding: 14px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .result-item:last-child {
+            margin-bottom: 0;
+            padding-top: 12px;
+            border-top: 1px solid #eaeaea;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .result-separator {
+            height: 1px;
+            background-color: #eaeaea;
+            margin: 12px 0;
+        }
+
+        .result-value {
+            color: #555;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-size: 14px;
+            background-color: #ffffff;
+        }
+
+        .heart {
+            color: #ff6b6b;
+        }
+
+        @media (max-width: 480px) {
+            .calculator {
+                padding: 20px;
+                margin-top: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .icon {
+                width: 28px;
+                height: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <h1>
+                <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.41 11.58L12.41 2.58C12.05 2.22 11.55 2 11 2H4C2.9 2 2 2.9 2 4V11C2 11.55 2.22 12.05 2.59 12.42L11.59 21.42C11.95 21.78 12.45 22 13 22C13.55 22 14.05 21.78 14.41 21.41L21.41 14.41C21.78 14.05 22 13.55 22 13C22 12.45 21.77 11.94 21.41 11.58M5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7Z"/>
+                </svg>
+                DisCount
+            </h1>
+            
+            <div class="input-group">
+                <label for="original-price">Original Price (₹)</label>
+                <input type="number" id="original-price" placeholder="Enter original price" min="0" step="0.01">
+            </div>
+            
+            <div class="mode-selector">
+                <div class="mode-option active" onclick="switchMode('percentage')">By Percentage</div>
+                <div class="mode-option" onclick="switchMode('final')">By Final Price</div>
+            </div>
+            
+            <div id="percentage-mode" class="input-section active">
+                <div class="input-group">
+                    <label for="discount-percent">Discount (%)</label>
+                    <input type="number" id="discount-percent" placeholder="Enter discount percentage" min="0" max="100" step="0.1">
+                </div>
+            </div>
+            
+            <div id="final-price-mode" class="input-section">
+                <div class="input-group">
+                    <label for="final-price-input">Final Price (₹)</label>
+                    <input type="number" id="final-price-input" placeholder="Enter final price" min="0" step="0.01">
+                </div>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="round-figure">
+                <label for="round-figure">Round to nearest rupee</label>
+            </div>
+            
+            <button class="button" onclick="calculateDiscount()">Calculate Discount</button>
+            
+            <div class="result" id="result">
+                <!-- Common items -->
+                <div class="result-item">
+                    <span>Original Price:</span>
+                    <span class="result-value" id="display-original">₹0.00</span>
+                </div>
+                
+                <!-- Mode-specific items will be dynamically added here -->
+                <div id="result-content"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Made with <span class="heart">❤️</span> by Sauravhhh
+    </div>
+
+    <script>
+        let currentMode = 'percentage';
+        
+        function switchMode(mode) {
+            currentMode = mode;
+            
+            // Update mode selector UI
+            document.querySelectorAll('.mode-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide input sections
+            document.getElementById('percentage-mode').classList.remove('active');
+            document.getElementById('final-price-mode').classList.remove('active');
+            
+            if (mode === 'percentage') {
+                document.getElementById('percentage-mode').classList.add('active');
+            } else {
+                document.getElementById('final-price-mode').classList.add('active');
+            }
+            
+            // Clear previous results
+            document.getElementById('result').style.display = 'none';
+        }
+        
+        function calculateDiscount() {
+            const originalPrice = parseFloat(document.getElementById('original-price').value);
+            const roundFigure = document.getElementById('round-figure').checked;
+            
+            if (isNaN(originalPrice) || originalPrice < 0) {
+                alert('Please enter a valid original price');
+                return;
+            }
+            
+            let discountAmount = 0;
+            let discountPercent = 0;
+            let finalPrice = 0;
+            
+            if (currentMode === 'percentage') {
+                const discountPercentInput = parseFloat(document.getElementById('discount-percent').value);
+                
+                if (isNaN(discountPercentInput) || discountPercentInput < 0 || discountPercentInput > 100) {
+                    alert('Please enter a valid discount percentage');
+                    return;
+                }
+                
+                discountPercent = discountPercentInput;
+                discountAmount = originalPrice * (discountPercent / 100);
+                finalPrice = originalPrice - discountAmount;
+            } else {
+                const finalPriceInput = parseFloat(document.getElementById('final-price-input').value);
+                
+                if (isNaN(finalPriceInput) || finalPriceInput < 0) {
+                    alert('Please enter a valid final price');
+                    return;
+                }
+                
+                if (finalPriceInput > originalPrice) {
+                    alert('Final price cannot be greater than original price');
+                    return;
+                }
+                
+                finalPrice = finalPriceInput;
+                discountAmount = originalPrice - finalPrice;
+                discountPercent = (discountAmount / originalPrice) * 100;
+            }
+            
+            // Round to nearest rupee if checkbox is checked
+            if (roundFigure) {
+                finalPrice = Math.round(finalPrice);
+                discountAmount = originalPrice - finalPrice;
+                discountPercent = (discountAmount / originalPrice) * 100;
+            }
+            
+            // Display results based on mode
+            const resultContent = document.getElementById('result-content');
+            resultContent.innerHTML = '';
+            
+            if (currentMode === 'percentage') {
+                // Show only discount amount and final price
+                resultContent.innerHTML += `
+                    <div class="result-item">
+                        <span>Discount Amount:</span>
+                        <span class="result-value">₹${discountAmount.toFixed(2)}</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Final Price:</span>
+                        <span class="result-value">₹${finalPrice.toFixed(2)}</span>
+                    </div>
+                `;
+            } else {
+                // Show final price, separator, then discount percentage and amount
+                resultContent.innerHTML += `
+                    <div class="result-item">
+                        <span>Final Price:</span>
+                        <span class="result-value">₹${finalPrice.toFixed(2)}</span>
+                    </div>
+                    <div class="result-separator"></div>
+                    <div class="result-item">
+                        <span>Discount Percentage:</span>
+                        <span class="result-value">${discountPercent.toFixed(1)}%</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Discount Amount:</span>
+                        <span class="result-value">₹${discountAmount.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+            
+            // Update original price display
+            document.getElementById('display-original').textContent = `₹${originalPrice.toFixed(2)}`;
+            
+            document.getElementById('result').style.display = 'block';
+        }
+        
+        // Allow calculation with Enter key
+        document.getElementById('original-price').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                calculateDiscount();
+            }
+        });
+        
+        document.getElementById('discount-percent').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && currentMode === 'percentage') {
+                calculateDiscount();
+            }
+        });
+        
+        document.getElementById('final-price-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && currentMode === 'final') {
+                calculateDiscount();
+            }
+        });
+    </script>
+</body>
+  </html>
